@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import {addGradeData} from "../actions"
 import Input from './input';
 
 class AddGradeForm extends Component {
     async handleAddUpdate(values){
-        // Do add functionality first
-
         console.log('Add or update grade entry:', values);
+        this.props.addGradeData(values);
+        this.props.reset()
     }
 
     handleReset(){
+        this.props.reset()
         console.log('Reset the form');
     }
 
@@ -20,7 +22,7 @@ class AddGradeForm extends Component {
         return (
             <form className="container" onSubmit={handleSubmit(this.handleAddUpdate.bind(this))}>
                 <h3>{isEdit ? 'Edit' : 'Add'} Student</h3>
-                
+
                 <Field name="name" placeholder="Student Name" icon="user" component={Input} />
                 <Field name="course" placeholder="Student Course" icon="school" component={Input} />
                 <Field name="grade" placeholder="Student grade" type="number" icon="graduation-cap" component={Input} />
@@ -36,7 +38,7 @@ class AddGradeForm extends Component {
 
 function validate({course, grade, name}){
     const errors = {};
-    
+
     // Add Validation
 
     return errors;
@@ -52,4 +54,6 @@ function mapStateToProps(state){
     return {}
 }
 
-export default connect(mapStateToProps, { })(AddGradeForm);
+export default connect(mapStateToProps, {
+    addGradeData: addGradeData
+ })(AddGradeForm);
